@@ -14,37 +14,26 @@ yum install -y  --nogpgcheck https://download.postgresql.org/pub/repos/yum/repor
 
 yum clean all  --nogpgcheck && yum makecache --nogpgcheck
 
-echo "Importation des dépendances PHP74"
-yumdownloader -y  --resolve --destdir=/tmp/packages/php74 php74-php php74-cli php74-php-ldap php74-json php74-xml php74-mbstring php74-zip php74-gd php74-pgsql php74-mysql
+for version in 74 82 83; do
+    echo "Importation des dépendances php${version}"
+    yumdownloader -y  --resolve --destdir=/tmp/packages/php${version} php${version}-php php${version}-cli php${version}-php-ldap php${version}-json php${version}-xml php${version}-mbstring php${version}-zip php${version}-gd php${version}-pgsql php${version}-mysql
+done
 
-echo "Importation des dépendances PHP8.2"
-yumdownloader -y  --resolve --destdir=/tmp/packages/php82 php82-php php82-cli php82-php-ldap php82-json php82-xml php82-mbstring php82-zip php82-gd php82-pgsql php82-mysql
+for version in 13 14 15; do
+    echo "Importation des dépendances postgresql${version} "
+    yumdownloader -y  --resolve  --destdir=/tmp/packages/postgresql${version} postgresql${version}-libs postgresql${version} postgresql${version}-server
+done;
 
-echo "Importation des dépendances PHP8.3"
-yumdownloader -y  --resolve --destdir=/tmp/packages/php83 php83-php php83-cli php83-php-ldap php83-json php83-xml php83-mbstring php83-zip php83-gd php83-pgsql php83-mysql
+for version in 10.5.9 10.11.9; do
+    echo "Importation des dépendances mariadb${version}"
+    yumdownloader -y  --resolve  --destdir=/tmp/packages/mariadb-${version} MariaDB-server-${version} MariaDB-client-${version} MariaDB-common-${version} MariaDB-compat-${version}
+done;
 
 
-echo "Importation des dépendances postgresql13"
-yumdownloader -y  --resolve  --destdir=/tmp/packages/postgresql13 postgresql13-libs postgresql13 postgresql13-server
-
-echo "Importation des dépendances postgresql14"
-yumdownloader -y  --resolve  --destdir=/tmp/packages/postgresql14 postgresql14-libs postgresql14 postgresql14-server
-
-echo "Importation des dépendances postgresql15"
-yumdownloader -y  --resolve  --destdir=/tmp/packages/postgresql15 postgresql15-libs postgresql15 postgresql15-server
-
-echo "Importation des dépendances mariadb"
-yumdownloader -y  --resolve  --destdir=/tmp/packages/mariadb-10.11.9 MariaDB-server-10.11.9 MariaDB-client-10.11.9 MariaDB-common-10.11.9 MariaDB-compat-10.11.9
-
-echo "Importation des dépendances mariadb"
-yumdownloader -y  --resolve  --destdir=/tmp/packages/mariadb-10.5.9 MariaDB-server-10.5.9 MariaDB-client-10.5.9 MariaDB-common-10.5.9 MariaDB-compat-10.5.9
-
-echo "Fin"
-
-chmod 777 -R /tmp
-
+yum install httpd -y
+chmod 755 -R /tmp
 cd /tmp/
-
-tar -cvzf  packages.tar.gz packages
-
-exec /bin/bash
+tar -cvzf  /var/www/html/packages.tar.gz packages
+rm -rfv /tmp/packages
+chown apache:apache /var/www/html/ -R
+httpd -D FOREGROUND

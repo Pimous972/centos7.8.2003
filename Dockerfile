@@ -19,7 +19,7 @@ RUN yum clean all && yum makecache && yum -y install vim wget curl
 COPY startup-script.sh /usr/local/bin/startup-script.sh
 RUN chmod +x /usr/local/bin/startup-script.sh
 
-WORKDIR /home
+EXPOSE 80
 
 # Exécuter le script lors du démarrage du conteneur
 CMD ["/usr/local/bin/startup-script.sh"]
