@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  custom-centos:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./packages:/mnt/packages  # Monte le répertoire local "packages" dans "/mnt/packages" du conteneur
+    tty: true  # Pour garder le conteneur ouvert en mode interactif
+    stdin_open: true  # Pour garder l'entrée standard ouverte
