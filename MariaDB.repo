@@ -1,6 +1,14 @@
-[mariadb]
-name = MariaDB
+[MariaDB-10.11.9]
+name = MariaDB-10.11.9
 baseurl = https://downloads.mariadb.com/MariaDB/mariadb-10.11.9/yum/centos/7Server/x86_64/
+gpgkey=https://downloads.mariadb.com/MariaDB/MariaDB-Server-GPG-KEY
+gpgcheck=1
+enabled=1
+
+
+[MariaDB-10.5.9]
+name = MariaDB-10.5.9
+baseurl = https://downloads.mariadb.com/MariaDB/mariadb-10.5.9/yum/centos/7Server/x86_64/
 gpgkey=https://downloads.mariadb.com/MariaDB/MariaDB-Server-GPG-KEY
 gpgcheck=1
 enabled=1
