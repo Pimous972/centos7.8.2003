@@ -1,0 +1,82 @@
+t---
+- name: Playbook pour installer et configurer MariaDB
+  hosts: database_servers
+  become: yes
+  tasks:
+
+    - name: Installer le dépôt MariaDB
+      ansible.builtin.template:
+        src: MariaDB.repo
+        dest: /etc/yum.repos.d/MariaDB.repo
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Mettre à jour le cache yum
+      ansible.builtin.yum:
+        name: "*"
+        state: latest
+
+    - name: Installer MariaDB
+      ansible.builtin.yum:
+        name: 
+          - MariaDB-client
+          - MariaDB-server
+          - python3-PyMySQL
+        state: present
+
+    - name: Démarrer et activer MariaDB
+      ansible.builtin.service:
+        name: mariadb
+        state: started
+        enabled: yes
+
+    - name: Attendre que MariaDB soit prêt
+      ansible.builtin.wait_for:
+        port: 3306
+        delay: 10
+        state: started
+        timeout: 300
+        host: 127.0.0.1
+
+    - name: Créer un fichier de configuration temporaire pour root (pour utiliser unix_socket)
+      ansible.builtin.copy:
+        dest: /root/.my.cnf
+        content: |
+          [client]
+          user=root
+          socket=/var/lib/mysql/mysql.sock
+        mode: 0600
+        owner: root
+        group: root
+
+    - name: Sécuriser l'installation de MariaDB (sans mot de passe root, via socket)
+      community.mysql.mysql_secure_installation:
+        login_unix_socket: /var/lib/mysql/mysql.sock
+        change_root_password: no
+        remove_anonymous_users: yes
+        disallow_root_login_remotely: yes
+        remove_test_db: yes
+
+    - name: Créer un utilisateur DBA
+      community.mysql.mysql_user:
+        name: dba
+        host: localhost
+        password: "{{ vaulted_dba_user_mysql_password }}"
+        priv: '*.*:ALL,GRANT'
+        state: present
+        login_unix_socket: /var/lib/mysql/mysql.sock
+
+    - name: Configurer un mot de passe pour root
+      community.mysql.mysql_user:
+        name: root
+        host: localhost
+        password: "{{ vault_mysql_root_password }}"
+        login_unix_socket: /var/lib/mysql/mysql.sock
+        priv: '*.*:ALL,GRANT'
+        state: present
+
+    - name: Supprimer le fichier de configuration temporaire
+      ansible.builtin.file:
+        path: /root/.my.cnf
+        state: absent
