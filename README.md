@@ -51,6 +51,12 @@ docker build -t custom_centos78:latest .
 docker run -d   -p 8080:80 -v "$(pwd)/packages:/tmp/" custom_centos78:latest
 ```
 
+4. **Téléchargement de l'archive** :
+
+```bash
+http://<IP DU SERVEUR>/packages.tar.gz
+```
+
 ## Détails du Processus
 
 ### 1. Installation des dépôts
