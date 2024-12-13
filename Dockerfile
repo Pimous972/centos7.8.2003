@@ -11,9 +11,9 @@ COPY MariaDB.repo /etc/yum.repos.d/MariaDB.repo
 
 
 # Mettre à jour le système et installer les outils nécessaires
-RUN yum clean all && yum makecache && yum -y install vim wget curl
-
-
+RUN yum clean all && yum makecache && \
+    yum -y install vim wget curl bash httpd && \
+    yum clean all
 
 # Ajouter le script à exécuter au démarrage
 COPY startup-script.sh /usr/local/bin/startup-script.sh
@@ -22,5 +22,5 @@ RUN chmod +x /usr/local/bin/startup-script.sh
 EXPOSE 80
 
 # Exécuter le script lors du démarrage du conteneur
-CMD ["/usr/local/bin/startup-script.sh"]
+ENTRYPOINT ["/usr/local/bin/startup-script.sh"]
 

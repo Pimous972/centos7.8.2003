@@ -12,3 +12,32 @@ baseurl = https://downloads.mariadb.com/MariaDB/mariadb-10.5.9/yum/centos/7Serve
 gpgkey=https://downloads.mariadb.com/MariaDB/MariaDB-Server-GPG-KEY
 gpgcheck=1
 enabled=1
+
+
+[MariaDB-10.4.34]
+name = MariaDB-10.4.34
+baseurl = https://downloads.mariadb.com/MariaDB/mariadb-10.4.34/yum/centos/7Server/x86_64/
+gpgkey=https://downloads.mariadb.com/MariaDB/MariaDB-Server-GPG-KEY
+gpgcheck=1
+enabled=1
+
+[MariaDB-10.3.39]
+name = MariaDB-10.3.39
+baseurl = https://downloads.mariadb.com/MariaDB/mariadb-10.3.39/yum/centos/7Server/x86_64/
+gpgkey=https://downloads.mariadb.com/MariaDB/MariaDB-Server-GPG-KEY
+gpgcheck=1
+enabled=1
+
+[MariaDB-10.2.44]
+name = MariaDB-10.2.44
+baseurl = https://downloads.mariadb.com/MariaDB/mariadb-10.2.44/yum/centos/7Server/x86_64/
+gpgkey=https://downloads.mariadb.com/MariaDB/MariaDB-Server-GPG-KEY
+gpgcheck=1
+enabled=1
+
+[MariaDB-10.1.48]
+name = MariaDB-10.1.48
+baseurl = https://downloads.mariadb.com/MariaDB/mariadb-10.1.48/yum/centos/7Server/x86_64/
+gpgkey=https://downloads.mariadb.com/MariaDB/MariaDB-Server-GPG-KEY
+gpgcheck=1
+enabled=1

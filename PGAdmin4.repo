@@ -1,0 +1,6 @@
+[PGadmin4MariaDB-10.11.]
+name = PGADMIN4
+baseurl = https://pgadmin-archive.postgresql.org/pgadmin4/yum/redhat/rhel-7Server-x86_64/
+#gpgkey=https://downloads.mariadb.com/MariaDB/MariaDB-Server-GPG-KEY
+#gpgcheck=1
+enabled=1
