@@ -48,10 +48,18 @@ docker build -t custom_centos78:latest .
 3. **Lancement du conteneur** :
 
 ```bash
-docker run -d   -p 8080:80 -v "$(pwd)/packages:/tmp/" custom_centos78:latest
+# avec podman
+docker run -p 80:80 custom_centos78:latest
+
+# avec podman
+podman run -p 80:80 localhost/custom_centos78:latest
 ```
 
-4. **Téléchargement de l'archive** :
+# volumes
+
+    #   - ./packages:/mnt/packages  # Monte le répertoire local "packages" dans "/mnt/packages" du conteneur
+
+3. **Téléchargement de l'archive** :
 
 ```bash
 http://<IP DU SERVEUR>/packages.tar.gz
